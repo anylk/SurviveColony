@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
     }
+
+    public void SetCursorVisiblity(bool isVisible)
+    {
+        Cursor.visible = isVisible;
+    }
 }
 public enum InputType
 {

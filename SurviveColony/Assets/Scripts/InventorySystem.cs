@@ -53,6 +53,9 @@ public class InventorySystem : MonoBehaviour
         {
             onInventoryChangeEvent();
         }
+
+        ConsoleUI.instance.AddMessage(referanceData.displayName + " added on Inventory", Color.green);
+        GameplayUI.instance.OpenInventoryMenu(inventory);
     }
     public void Remove(InventoryItemSO referenceData)
     {
@@ -69,6 +72,8 @@ public class InventorySystem : MonoBehaviour
         {
             onInventoryChangeEvent();
         }
+        ConsoleUI.instance.AddMessage(referenceData.displayName + " removed on Inventory", Color.red);
+        GameplayUI.instance.OpenInventoryMenu(inventory);
     }
 
     [ContextMenu("Drop First Item")]
@@ -82,5 +87,16 @@ public class InventorySystem : MonoBehaviour
             item.transform.position = Vector3.one;
             item.InitializeData(inventoryItemSO,1);
         }
+    }
+
+    public void DropItem(InventoryItemSO inventoryItemSO)
+    {
+        if (m_itemDictionaty.TryGetValue(inventoryItemSO, out InventoryItem value))
+        {
+            InventoryWorldItem item = Instantiate(inventoryPool.Pool.Get(), PlayerController.instance.transform.position+ PlayerController.instance.transform.forward + Vector3.up, Quaternion.identity);
+            item.AddForce(PlayerController.instance.transform.forward + Vector3.up / 2, 50f);
+            item.InitializeData(value.data, 1);
+            Remove(value.data);
+        }   
     }
 }

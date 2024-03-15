@@ -7,6 +7,7 @@ public class InventoryWorldItem : MonoBehaviour, ICollectableItem
     private MeshFilter itemMeshFilter;
     private Renderer itemRenderer;
     private MeshCollider itemMeshCollider;
+    private Rigidbody rigidbody;
 
     public Vector3 worldPosition { get => transform.position; }
     public string displayName { get => "x" + inventoryItemAmount + "<#ffffff> " + inventoryItemSO.displayName; }
@@ -29,6 +30,7 @@ public class InventoryWorldItem : MonoBehaviour, ICollectableItem
 
     public void InitializeData(InventoryItemSO inventoryItemSO,int inventoryItemAmount)
     {
+        SetComponents();
         this.inventoryItemSO = inventoryItemSO;
         this.inventoryItemAmount = inventoryItemAmount;
         UpdateRenderer();
@@ -46,6 +48,14 @@ public class InventoryWorldItem : MonoBehaviour, ICollectableItem
         InventorySystem.instance.Add(inventoryItemSO, this);
     }
 
+    public void AddForce(Vector3 direction, float power)
+    {
+        if (rigidbody == null)
+        {
+            rigidbody = GetComponent<Rigidbody>();
+        }
+        rigidbody.AddForce(direction * power);
+    }
     public void ToggleIndicate(bool setActive)
     {
 

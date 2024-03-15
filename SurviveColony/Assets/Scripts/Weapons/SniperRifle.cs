@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pistol : Weapon
+public class SniperRifle : Weapon
 {
     BulletPool pool;
     [Space(10), Header("Weapon Parts")]
@@ -37,9 +37,9 @@ public class Pistol : Weapon
 
     public override void Fire()
     {
-        //audioSource.PlayOneShot(fireTriggerAudioClip);
-
         accumulatedTime = 0f;
+
+        audioSource.PlayOneShot(fireTriggerAudioClip);
 
         foreach (ParticleSystem particle in fireParticle)
         {
@@ -98,9 +98,9 @@ public class Pistol : Weapon
         if (Physics.Raycast(ray, out hitInfo, distance))
         {
             pool.EmitHitParicle(hitInfo);
-           //hitEffectMetal.transform.position = hitInfo.point;
-           //hitEffectMetal.transform.forward = hitInfo.normal;
-           //hitEffectMetal.Emit(1);
+            //hitEffectMetal.transform.position = hitInfo.point;
+            //hitEffectMetal.transform.forward = hitInfo.normal;
+            //hitEffectMetal.Emit(1);
 
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxLifeTime;
@@ -108,7 +108,7 @@ public class Pistol : Weapon
             //IDamageable damageble = hitInfo.transform.GetComponent<IDamageable>();
             //if (damageble != null)
             //{
-                //damageble.Damage(damage);
+            //damageble.Damage(damage);
             //}
         }
         else

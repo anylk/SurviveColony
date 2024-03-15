@@ -3,7 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    public Transform aimTarget;
+    [SerializeField]private Transform aimIndicate;
+    private bool lookatAim;
 
     [Header("Movement Properties")]
     private bool running;
@@ -103,11 +104,12 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 animationVelocity;
         Vector3 lookAtDirection;
-        if (GameManager.instance.inputType == InputType.Mobile)
-        {
-            if (targetEnemy != null)
+
+
+            if (lookatAim)
             {
-                lookAtDirection = targetEnemy.transform.position - transform.position;
+                //lookAtDirection = targetEnemy.transform.position - transform.position;
+                lookAtDirection = aimIndicate.transform.position - transform.position;
                 Vector3 dott = new Vector3(rawInput.x, 0, rawInput.y);
                 float dotForward = Vector3.Dot(transform.forward, dott);
                 float dotRight = Vector3.Dot(transform.right, dott);
@@ -118,15 +120,7 @@ public class PlayerMovement : MonoBehaviour
                 lookAtDirection = new Vector3(rawInput.x, 0, rawInput.y);
                 animationVelocity = new Vector2(0, rawInput.magnitude * animationSpeedPercent);
             }
-        }
-        else
-        {
-            lookAtDirection = (aimTarget.transform.position - transform.position).normalized;
-            Vector3 dott = new Vector3(rawInput.x, 0, rawInput.y);
-            float dotForward = Vector3.Dot(transform.forward, dott);
-            float dotRight = Vector3.Dot(transform.right, dott);
-            animationVelocity = new Vector2(animationSpeedPercent * dotRight, animationSpeedPercent * dotForward);
-        }
+
 
 
         LookAtDirection(lookAtDirection);
@@ -188,6 +182,11 @@ public class PlayerMovement : MonoBehaviour
         var dir = direction;
         dir.y = 0.0f;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(dir), lookAtSpeed);
+    }
+
+    public void AimIndicate(bool aiming)
+    {
+        lookatAim = aiming;
     }
 
     public void SetIndicate(Enemy newEnemy)

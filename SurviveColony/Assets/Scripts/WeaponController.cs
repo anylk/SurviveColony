@@ -6,7 +6,7 @@ public class WeaponController : MonoBehaviour
     private IKController ikController;
     public Weapon currentWeapon;
 
-    [SerializeField] private bool autoFire;
+    [SerializeField] public bool autoFire;
     [Range(.1f, 1f)]
     public float aimDuration = .18f;
     [Range(0f, 1f)]
@@ -21,7 +21,7 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
-        ikController.SetWeaponData(currentWeapon.ikWeaponData);
+        ikController.SetWeaponData(currentWeapon.ikWeaponData, currentWeapon.transform);
         currentWeapon.Initiaze(pool);
     }
 
